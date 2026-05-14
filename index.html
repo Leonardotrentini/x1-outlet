@@ -159,13 +159,20 @@
 
     <script>
         (function(){
+            var KEY='x1-outlet:wa-index';
             var links=[
-                'https://api.whatsapp.com/message/ITVB7NLV6XO5H1?autoload=1&app_absent=0',
-                'https://api.whatsapp.com/send/?phone=5511910532881&text=Ol%C3%A1%2C+vim+do+site+e+queria+comprar+no+atacado%21&type=phone_number&app_absent=0'
+                'https://api.whatsapp.com/message/ITVB7NLV6XO5H1?autoload=1\u0026app_absent=0',
+                'https://api.whatsapp.com/send/?phone=5511910532881\u0026text=Ol%C3%A1%2C+vim+do+site+e+queria+comprar+no+atacado%21\u0026type=phone_number\u0026app_absent=0'
             ];
-            var i=parseInt(localStorage.getItem('waIndex')||'0',10)||0;
-            var href=links[i];
-            localStorage.setItem('waIndex',String((i+1)%links.length));
+            var n=links.length;
+            var stored=localStorage.getItem(KEY);
+            var idx=0;
+            if(stored!==null){
+                var p=parseInt(stored,10);
+                if(Number.isFinite(p))idx=((p%n)+n)%n;
+            }
+            var href=links[idx];
+            localStorage.setItem(KEY,String((idx+1)%n));
             document.querySelectorAll('a.cta').forEach(function(a){a.href=href;});
         })();
     </script>
